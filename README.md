@@ -1,4 +1,4 @@
-# MathAssess AI — AI-Supported Assessment Platform
+# Mathify AI — AI-Supported Assessment Platform
 
 A static, interactive mathematics assessment exploring **trigonometric equations** and the role of teacher judgment in AI-assisted feedback.
 
@@ -12,7 +12,9 @@ A static, interactive mathematics assessment exploring **trigonometric equations
 
 ## Features
 
-- Responsive navy, indigo, and violet interface with mobile navigation and keyboard focus indicators.
+- Twitter-inspired light interface with a fixed sidebar, a central learning feed, blue pill buttons, profile-style header, and keyboard focus indicators.
+- Responsive study rail with a unit-circle explorer that moves into a collapsible panel on tablets and phones.
+- Mobile menu and bottom navigation, plus section tabs with active-section indicators.
 - Interactive SVG unit-circle explorer, including degree angles, cosine, sine, quadrant labels, and axis cases.
 - Exactly seven questions: six multiple-choice questions and one written response.
 - Previous/next controls, direct question navigation, answer retention, completion progress, and missing-answer validation.

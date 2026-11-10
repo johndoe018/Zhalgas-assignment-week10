@@ -1,4 +1,4 @@
-/* MathAssess AI: deterministic assessment, with no API calls or student-data storage. */
+/* Mathify AI: deterministic assessment, with no API calls or student-data storage. */
 (() => {
   "use strict";
 
@@ -357,6 +357,23 @@
   $("#angle-slider").addEventListener("input", updateCircle);
   updateCircle();
 
+  // Keep one working explorer, moving it into the feed on smaller screens.
+  const explorer = $("#explorer-card");
+  const compactLayout = matchMedia("(max-width: 1100px)");
+  let mobileExplorerOpen = false;
+  function positionExplorer() {
+    const slot = compactLayout.matches
+      ? $("#mobile-explorer-slot")
+      : $("#rail-explorer-slot");
+    slot.append(explorer);
+    explorer.open = compactLayout.matches ? mobileExplorerOpen : true;
+  }
+  explorer.addEventListener("toggle", () => {
+    if (compactLayout.matches) mobileExplorerOpen = explorer.open;
+  });
+  compactLayout.addEventListener("change", positionExplorer);
+  positionExplorer();
+
   const menu = $(".menu-toggle");
   const nav = $("#primary-nav");
   function closeMenu(returnFocus = false) {
@@ -388,7 +405,7 @@
   document.addEventListener("click", (event) => {
     if (!event.target.closest(".nav-shell")) closeMenu();
   });
-  matchMedia("(min-width: 641px)").addEventListener("change", (event) => {
+  matchMedia("(min-width: 701px)").addEventListener("change", (event) => {
     if (event.matches) closeMenu();
   });
 
@@ -438,7 +455,9 @@
     button.addEventListener("click", async () => {
       const prompt = document.getElementById(button.dataset.copy);
       button.disabled = true;
-      const success = await copyText(prompt.textContent.replace(/\s+/gu, " ").trim());
+      const success = await copyText(
+        prompt.textContent.replace(/\s+/gu, " ").trim(),
+      );
       button.querySelector("span").textContent = success
         ? "Copied!"
         : "Select text to copy";
@@ -475,12 +494,13 @@
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            $$(".nav-link").forEach((link) =>
-              link.classList.toggle(
-                "is-active",
-                link.getAttribute("href") === `#${entry.target.id}`,
-              ),
-            );
+            $$(".nav-link, .feed-tab, .mobile-nav-link").forEach((link) => {
+              const active =
+                link.getAttribute("href") === `#${entry.target.id}`;
+              link.classList.toggle("is-active", active);
+              if (active) link.setAttribute("aria-current", "location");
+              else link.removeAttribute("aria-current");
+            });
           }
         });
       },
